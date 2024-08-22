@@ -14,6 +14,8 @@ struct ContentView: View {
     @State private var image: Image?
     
     @State private var faces = [Face]()
+    @State private var selectedFace: Face?
+    @State private var selectedData: Data?
     
     var body: some View {
         NavigationStack {
@@ -24,6 +26,11 @@ struct ContentView: View {
                             .resizable()
                             .scaledToFit()
                         Text(face.name)
+                    }
+                }
+                .sheet(item: $selectedFace) { face in
+                    AddFaceView(face: face) { newFace in
+                        faces.append(newFace)
                     }
                 }
                 .onChange(of: selectedItem) {
@@ -42,7 +49,8 @@ struct ContentView: View {
         
         Task {
             guard let imageData = try await selectedItem?.loadTransferable(type: Data.self) else { return }
-            faces.append(Face(id: UUID(), photoData: imageData, name: "New photo", description: "desc"))
+//            faces.append(Face(id: UUID(), photoData: imageData, name: "New photo", description: "desc"))
+            selectedFace = Face(id: UUID(), photoData: imageData, name: "", description: "")
         }
         
     }
