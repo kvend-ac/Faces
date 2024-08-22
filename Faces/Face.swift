@@ -26,4 +26,8 @@ struct Face: Codable, Equatable, Identifiable {
     static let example = Face(id: UUID(), name: "Alice", description: "Person from a book")
     #endif
     
+    static func ==(lhs: Face, rhs: Face) -> Bool {
+        lhs.id == rhs.id
+    }
+    
 }

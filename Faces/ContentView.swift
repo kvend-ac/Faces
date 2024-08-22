@@ -51,6 +51,7 @@ struct ContentView: View {
             guard let imageData = try await selectedItem?.loadTransferable(type: Data.self) else { return }
 //            faces.append(Face(id: UUID(), photoData: imageData, name: "New photo", description: "desc"))
             selectedFace = Face(id: UUID(), photoData: imageData, name: "", description: "")
+            selectedItem = nil
         }
         
     }

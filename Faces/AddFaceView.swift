@@ -48,9 +48,11 @@ struct AddFaceView: View {
                     var newLocation = face
                     newLocation.name = name
                     newLocation.description = description
+                    onSave(newLocation)
                     dismiss()
                 }
             }
+            Spacer()
         }
     }
 }
