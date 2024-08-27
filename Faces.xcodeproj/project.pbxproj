@@ -14,6 +14,7 @@
 		F9863CFC2C774C90008C7842 /* Face.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9863CFB2C774C90008C7842 /* Face.swift */; };
 		F9863CFE2C7774B2008C7842 /* AddFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9863CFD2C7774B2008C7842 /* AddFaceView.swift */; };
 		F98FAFF02C7E150500D8C291 /* ContentView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98FAFEF2C7E150500D8C291 /* ContentView-ViewModel.swift */; };
+		F98FAFF22C7E24DA00D8C291 /* EditFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F98FAFF12C7E24DA00D8C291 /* EditFaceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		F9863CFB2C774C90008C7842 /* Face.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Face.swift; sourceTree = "<group>"; };
 		F9863CFD2C7774B2008C7842 /* AddFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFaceView.swift; sourceTree = "<group>"; };
 		F98FAFEF2C7E150500D8C291 /* ContentView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView-ViewModel.swift"; sourceTree = "<group>"; };
+		F98FAFF12C7E24DA00D8C291 /* EditFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFaceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				F9863CED2C773EAF008C7842 /* FacesApp.swift */,
 				F9863CEF2C773EAF008C7842 /* ContentView.swift */,
 				F98FAFEF2C7E150500D8C291 /* ContentView-ViewModel.swift */,
+				F98FAFF12C7E24DA00D8C291 /* EditFaceView.swift */,
 				F9863CFD2C7774B2008C7842 /* AddFaceView.swift */,
 				F9863CFB2C774C90008C7842 /* Face.swift */,
 				F9863CF12C773EB2008C7842 /* Assets.xcassets */,
@@ -151,6 +154,7 @@
 				F98FAFF02C7E150500D8C291 /* ContentView-ViewModel.swift in Sources */,
 				F9863CEE2C773EAF008C7842 /* FacesApp.swift in Sources */,
 				F9863CFE2C7774B2008C7842 /* AddFaceView.swift in Sources */,
+				F98FAFF22C7E24DA00D8C291 /* EditFaceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

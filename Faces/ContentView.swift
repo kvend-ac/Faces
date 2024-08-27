@@ -8,6 +8,8 @@
 import SwiftUI
 import PhotosUI
 
+//Надо оформить как NavigationLink для просмотра вьюшки Face, а по долгому нажатию вызывать sheet, но уже другой, с просмотром соответственно для изменения Face, возможно стиль не sheet, а другой например на fullScreenCover, а может и оставить как sheet, только для другой переменной, котору будем тригерить в долгом нажатии
+
 struct FaceView: View {
     
     @State var face: Face
