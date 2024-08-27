@@ -11,7 +11,6 @@ import PhotosUI
 struct ContentView: View {
     
     @State private var selectedItem: PhotosPickerItem?
-    @State private var image: Image?
     
     @State private var faces = [Face]()
     @State private var selectedFace: Face?
@@ -20,12 +19,23 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack {
+                VStack(alignment: .leading) {
                     ForEach(faces) { face in
-                        face.photo
-                            .resizable()
-                            .scaledToFit()
-                        Text(face.name)
+                        HStack(alignment: .center) {
+                            face.photo
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(.circle)
+                                .frame(width: 100, height: 100)
+                            VStack(alignment: .leading) {
+                                Text(face.name)
+                                    .font(.title)
+                                Text(face.description)
+                                    .foregroundStyle(.secondary)
+//                                Spacer()
+                            }
+                            Spacer()
+                        }
                     }
                 }
                 .sheet(item: $selectedFace) { face in
@@ -43,6 +53,7 @@ struct ContentView: View {
                 }
             }
         }
+        .preferredColorScheme(.light)
     }
     
     func loadImage() {
