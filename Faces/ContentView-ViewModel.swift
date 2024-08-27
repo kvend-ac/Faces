@@ -5,6 +5,7 @@
 //  Created by Сергей Прасолов on 27.08.2024.
 //
 
+import CoreLocation
 import Foundation
 import PhotosUI
 import SwiftUI
@@ -14,9 +15,11 @@ extension ContentView {
     @Observable
     class ViewModel {
         var selectedItem: PhotosPickerItem?
-        var faces = [Face]()
-        var selectedFace: Face?
+        
+        private(set) var faces = [Face]()
+        var selectedAddFace: Face?
         var selectedEditFace: Face?
+        var selectedViewFace: Face?
         
         let savePath = URL.documentsDirectory.appending(path: "SavedFaces")
         
@@ -38,7 +41,36 @@ extension ContentView {
             }
         }
         //заготовка
-        func addFace() {
+        func addFace(at face: Face) {
+            faces.append(face)
+            save()
+        }
+        
+        func update(face: Face) {
+            guard let selectedEditFace else { return }
+            
+            if let index = faces.firstIndex(of: selectedEditFace) {
+                faces[index] = face
+            }
+            save()
+        }
+        
+        func delete(face: Face) {
+            guard let selectedEditFace else { return }
+            
+            if let index = faces.firstIndex(of: selectedEditFace) {
+                faces.remove(at: index)
+            }
+            save()
+        }
+        
+        func loadImage() {
+            
+            Task {
+                guard let imageData = try await selectedItem?.loadTransferable(type: Data.self) else { return }
+                selectedAddFace = Face(id: UUID(), photoData: imageData, name: "", description: "")
+                selectedItem = nil
+            }
             
         }
         

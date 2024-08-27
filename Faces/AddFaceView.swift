@@ -27,7 +27,6 @@ struct AddFaceView: View {
     var body: some View {
         NavigationStack {
             VStack {
-//                Image(systemName: "photo.artframe")
                 face.photo
                     .resizable()
                     .scaledToFit()
@@ -45,10 +44,10 @@ struct AddFaceView: View {
             .ignoresSafeArea()
             .toolbar {
                 Button("Save") {
-                    var newLocation = face
-                    newLocation.name = name
-                    newLocation.description = description
-                    onSave(newLocation)
+                    var newFace = face
+                    newFace.name = name
+                    newFace.description = description
+                    onSave(newFace)
                     dismiss()
                 }
             }
@@ -57,6 +56,6 @@ struct AddFaceView: View {
     }
 }
 
-//#Preview {
-//    AddFaceView(face: .example) { _ in }
-//}
+#Preview {
+    AddFaceView(face: .example) { _ in }
+}

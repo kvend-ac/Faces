@@ -27,8 +27,7 @@ struct EditFaceView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Image(systemName: "photo.artframe")
-//                face.photo
+                face.photo
                     .resizable()
                     .scaledToFit()
                 VStack {
@@ -44,12 +43,27 @@ struct EditFaceView: View {
             }
             .ignoresSafeArea()
             .toolbar {
-                Button("Save") {
-                    var newLocation = face
-                    newLocation.name = name
-                    newLocation.description = description
-                    onSave(newLocation)
-                    dismiss()
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        var newFace = face
+                        newFace.id = UUID()
+                        newFace.name = "DELETE"
+                        newFace.description = ""
+                        onSave(newFace)
+                        dismiss()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Edit") {
+                        var newFace = face
+                        newFace.id = UUID()
+                        newFace.name = name
+                        newFace.description = description
+                        onSave(newFace)
+                        dismiss()
+                    }
                 }
             }
             Spacer()

@@ -10,12 +10,18 @@ import PhotosUI
 
 //Надо оформить как NavigationLink для просмотра вьюшки Face, а по долгому нажатию вызывать sheet, но уже другой, с просмотром соответственно для изменения Face, возможно стиль не sheet, а другой например на fullScreenCover, а может и оставить как sheet, только для другой переменной, котору будем тригерить в долгом нажатии
 
+
+//временная вьюшка
 struct FaceView: View {
     
     @State var face: Face
     
     var body: some View {
-        Text("View for \(face.name)")
+        face.photo
+            .resizable()
+            .scaledToFit()
+        Text(face.name)
+        Spacer()
     }
 }
 
@@ -23,51 +29,75 @@ struct ContentView: View {
     
     @State private var viewModel = ViewModel()
     
+    let columns = [
+        GridItem(.adaptive(minimum: 600, maximum: CGFloat(Int.max)))
+    ]
+    
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading) {
+                LazyVGrid(columns: columns) {
                     ForEach(viewModel.faces.sorted()) { face in
-                        VStack {
-                            HStack(alignment: .center) {
-                                face.photo
-                                    .resizable()
-                                    .scaledToFit()
-                                    .clipShape(.circle)
-                                    .frame(width: 100, height: 100)
-                                VStack(alignment: .leading) {
-                                    Text(face.name)
-                                        .font(.title)
-                                    Text(face.description)
-                                        .foregroundStyle(.secondary)
+                        NavigationLink {
+                            FaceView(face: face)
+                        } label: {
+                            VStack {
+                                HStack(alignment: .center) {
+                                    face.photo
+                                        .resizable()
+                                        .scaledToFill()
+                                        .clipShape(.circle)
+                                        .frame(width: 70, height: 70)
+                                        .padding(7)
+                                        .onLongPressGesture {
+                                            //вьюшка изменения текста или удаления
+                                            let impactMed = UIImpactFeedbackGenerator(style: .medium)
+                                            impactMed.impactOccurred()
+                                            viewModel.selectedEditFace = face
+                                        }
+                                    VStack(alignment: .leading) {
+                                        Text(face.name)
+                                            .font(.title)
+                                            .foregroundStyle(.black)
+                                        Text(face.description)
+                                            .foregroundStyle(.black.opacity(0.5))
+                                    }
+                                    Spacer()
                                 }
-                                Spacer()
                             }
-                        }
-                        .clipShape(.rect(cornerRadius: 10))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(.secondary)
-                        )
-                        .padding(.horizontal, 5)
-                        .padding(.vertical, -1)
-                        .onLongPressGesture {
-                            //вьюшка изменения текста или удаления
+                            .clipShape(.rect(cornerRadius: 10))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(.black.opacity(0.5))
+                            )
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, -1)
                         }
                     }
                 }
-                .sheet(item: $viewModel.selectedFace) { face in
-                    AddFaceView(face: face) { newFace in
-                        viewModel.faces.append(newFace)
+                .padding([.vertical, .bottom])
+            }
+            .sheet(item: $viewModel.selectedAddFace) { face in
+                AddFaceView(face: face) { newFace in
+                    viewModel.addFace(at: newFace)
+                }
+            }
+            .sheet(item: $viewModel.selectedEditFace) { face in
+                EditFaceView(face: face) { editedFace in
+                    if editedFace.name == "DELETE" {
+                        viewModel.delete(face: editedFace)
+                    } else {
+                        viewModel.update(face: editedFace)
                     }
                 }
-                .onChange(of: viewModel.selectedItem) {
-                    loadImage()
-                }
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        PhotosPicker("Select photo", selection: $viewModel.selectedItem)
-                    }
+            }
+            .onChange(of: viewModel.selectedItem) {
+                viewModel.loadImage()
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    PhotosPicker("Select photo", selection: $viewModel.selectedItem, matching: .images)
+                    
                 }
             }
             .navigationTitle("Faces")
@@ -75,16 +105,7 @@ struct ContentView: View {
         .preferredColorScheme(.light)
     }
     
-    func loadImage() {
-        
-        Task {
-            guard let imageData = try await viewModel.selectedItem?.loadTransferable(type: Data.self) else { return }
-//            faces.append(Face(id: UUID(), photoData: imageData, name: "New photo", description: "desc"))
-            viewModel.selectedFace = Face(id: UUID(), photoData: imageData, name: "", description: "")
-            viewModel.selectedItem = nil
-        }
-        
-    }
+
 }
 
 #Preview {

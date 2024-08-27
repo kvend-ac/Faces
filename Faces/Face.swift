@@ -11,13 +11,16 @@ import SwiftUI
 struct Face: Codable, Equatable, Identifiable, Comparable, Hashable {
     
     
-    let id: UUID
+    var id: UUID
     var photoData: Data?
     var name: String
     var description: String
     
     var photo: Image {
-        if let inputImage = UIImage(data: photoData!) {
+        
+        guard let photoData else { return Image(systemName: "photo.artframe") }
+        
+        if let inputImage = UIImage(data: photoData) {
             return Image(uiImage: inputImage)
         } else {
             return Image(systemName: "photo.artframe")
