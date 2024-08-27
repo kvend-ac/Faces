@@ -8,50 +8,67 @@
 import SwiftUI
 import PhotosUI
 
+struct FaceView: View {
+    
+    @State var face: Face
+    
+    var body: some View {
+        Text("View for \(face.name)")
+    }
+}
+
 struct ContentView: View {
     
-    @State private var selectedItem: PhotosPickerItem?
-    
-    @State private var faces = [Face]()
-    @State private var selectedFace: Face?
-    @State private var selectedData: Data?
+    @State private var viewModel = ViewModel()
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
-                    ForEach(faces) { face in
-                        HStack(alignment: .center) {
-                            face.photo
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(.circle)
-                                .frame(width: 100, height: 100)
-                            VStack(alignment: .leading) {
-                                Text(face.name)
-                                    .font(.title)
-                                Text(face.description)
-                                    .foregroundStyle(.secondary)
-//                                Spacer()
+                    ForEach(viewModel.faces.sorted()) { face in
+                        VStack {
+                            HStack(alignment: .center) {
+                                face.photo
+                                    .resizable()
+                                    .scaledToFit()
+                                    .clipShape(.circle)
+                                    .frame(width: 100, height: 100)
+                                VStack(alignment: .leading) {
+                                    Text(face.name)
+                                        .font(.title)
+                                    Text(face.description)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer()
                             }
-                            Spacer()
+                        }
+                        .clipShape(.rect(cornerRadius: 10))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(.secondary)
+                        )
+                        .padding(.horizontal, 5)
+                        .padding(.vertical, -1)
+                        .onLongPressGesture {
+                            //вьюшка изменения текста или удаления
                         }
                     }
                 }
-                .sheet(item: $selectedFace) { face in
+                .sheet(item: $viewModel.selectedFace) { face in
                     AddFaceView(face: face) { newFace in
-                        faces.append(newFace)
+                        viewModel.faces.append(newFace)
                     }
                 }
-                .onChange(of: selectedItem) {
+                .onChange(of: viewModel.selectedItem) {
                     loadImage()
                 }
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        PhotosPicker("Select photo", selection: $selectedItem)
+                        PhotosPicker("Select photo", selection: $viewModel.selectedItem)
                     }
                 }
             }
+            .navigationTitle("Faces")
         }
         .preferredColorScheme(.light)
     }
@@ -59,10 +76,10 @@ struct ContentView: View {
     func loadImage() {
         
         Task {
-            guard let imageData = try await selectedItem?.loadTransferable(type: Data.self) else { return }
+            guard let imageData = try await viewModel.selectedItem?.loadTransferable(type: Data.self) else { return }
 //            faces.append(Face(id: UUID(), photoData: imageData, name: "New photo", description: "desc"))
-            selectedFace = Face(id: UUID(), photoData: imageData, name: "", description: "")
-            selectedItem = nil
+            viewModel.selectedFace = Face(id: UUID(), photoData: imageData, name: "", description: "")
+            viewModel.selectedItem = nil
         }
         
     }
