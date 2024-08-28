@@ -31,9 +31,16 @@ struct AddFaceView: View {
                     .resizable()
                     .scaledToFit()
                 VStack {
-                    TextField("Name", text: $name)
-                        .textFieldStyle(.roundedBorder)
-                    TextField("Description", text: $description)
+                    TextField("Имя", text: $name, axis: .vertical)
+                    TextField("Дополнительная информация", text: $description, axis: .vertical)
+//                    TextEditor(text: $description)
+//                        .clipShape(.rect(cornerRadius: 5))
+//                        .overlay(
+//                            RoundedRectangle(cornerRadius: 5)
+//                                .stroke(.separator.opacity(0.5))
+//                        ) //запасной вариант, менее красивый
+                        
+    
                         
     
                 }
@@ -50,7 +57,7 @@ struct AddFaceView: View {
                     onSave(newFace)
                     dismiss()
                 } label: {
-                    Text("Save")
+                    Text("Сохранить")
                         .padding(10)
                         .foregroundColor(.secondary)
                         .background(.thinMaterial)

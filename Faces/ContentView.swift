@@ -8,22 +8,6 @@
 import SwiftUI
 import PhotosUI
 
-//Надо оформить как NavigationLink для просмотра вьюшки Face, а по долгому нажатию вызывать sheet, но уже другой, с просмотром соответственно для изменения Face, возможно стиль не sheet, а другой например на fullScreenCover, а может и оставить как sheet, только для другой переменной, котору будем тригерить в долгом нажатии
-
-
-//временная вьюшка
-struct FaceView: View {
-    
-    @State var face: Face
-    
-    var body: some View {
-        face.photo
-            .resizable()
-            .scaledToFit()
-        Text(face.name)
-        Spacer()
-    }
-}
 
 struct ContentView: View {
     
@@ -60,8 +44,10 @@ struct ContentView: View {
                                             .font(.title)
                                             .foregroundStyle(.black)
                                             .multilineTextAlignment(.leading)
+                                            .lineLimit(2)
                                         Text(face.description)
                                             .foregroundStyle(.black.opacity(0.5))
+                                            .lineLimit(1)
                                     }
                                     Spacer()
                                 }
@@ -95,6 +81,11 @@ struct ContentView: View {
             .onChange(of: viewModel.selectedItem) {
                 viewModel.loadImage()
             }
+            .alert("", isPresented: $viewModel.showingAlertInfo) {
+
+            } message: {
+                Text("Для того, что бы редактировать или удалить запись - удержирайте миниатюру изображения")
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     PhotosPicker(selection: $viewModel.selectedItem, matching: .images) {
@@ -103,10 +94,19 @@ struct ContentView: View {
                             .font(.title)
                             .foregroundColor(.black)
                     }
-                    
+                }
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        viewModel.showingAlertInfo = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .resizable()
+                            .font(.title)
+                            .foregroundColor(.black)
+                    }
                 }
             }
-            .navigationTitle("Faces")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .preferredColorScheme(.light)
     }

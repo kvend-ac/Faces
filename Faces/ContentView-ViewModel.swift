@@ -20,6 +20,7 @@ extension ContentView {
         var selectedAddFace: Face?
         var selectedEditFace: Face?
         var selectedViewFace: Face?
+        var showingAlertInfo = false
         
         let savePath = URL.documentsDirectory.appending(path: "SavedFaces")
         

@@ -25,6 +25,7 @@ struct Face: Codable, Equatable, Identifiable, Comparable, Hashable {
         } else {
             return Image(systemName: "photo.artframe")
         }
+        
     }
     
     #if DEBUG
