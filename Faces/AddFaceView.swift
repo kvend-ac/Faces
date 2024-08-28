@@ -43,12 +43,18 @@ struct AddFaceView: View {
             }
             .ignoresSafeArea()
             .toolbar {
-                Button("Save") {
+                Button {
                     var newFace = face
                     newFace.name = name
                     newFace.description = description
                     onSave(newFace)
                     dismiss()
+                } label: {
+                    Text("Save")
+                        .padding(10)
+                        .foregroundColor(.secondary)
+                        .background(.thinMaterial)
+                        .clipShape(.capsule)
                 }
             }
             Spacer()

@@ -59,6 +59,7 @@ struct ContentView: View {
                                         Text(face.name)
                                             .font(.title)
                                             .foregroundStyle(.black)
+                                            .multilineTextAlignment(.leading)
                                         Text(face.description)
                                             .foregroundStyle(.black.opacity(0.5))
                                     }
@@ -96,7 +97,12 @@ struct ContentView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    PhotosPicker("Select photo", selection: $viewModel.selectedItem, matching: .images)
+                    PhotosPicker(selection: $viewModel.selectedItem, matching: .images) {
+                        Image(systemName: "plus.app")
+                            .resizable()
+                            .font(.title)
+                            .foregroundColor(.black)
+                    }
                     
                 }
             }
