@@ -69,6 +69,7 @@ extension ContentView {
             
             Task {
                 guard let imageData = try await selectedItem?.loadTransferable(type: Data.self) else { return }
+
                 selectedAddFace = Face(id: UUID(), photoData: imageData, name: "", description: "")
                 selectedItem = nil
             }

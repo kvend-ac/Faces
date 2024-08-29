@@ -11,6 +11,8 @@ struct FaceView: View {
     @State var face: Face
     @Environment(\.dismiss) var dismiss
     
+    @State private var mapSheetView = false
+    
     var body: some View {
         ScrollView {
             face.photo
@@ -32,6 +34,9 @@ struct FaceView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
+        .sheet(isPresented: $mapSheetView) {
+            MapView(face: face)
+        }
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button {
@@ -43,6 +48,15 @@ struct FaceView: View {
                         Text("Назад")
                     }
                     .foregroundColor(.black)
+                }
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    //вьюшка мапы
+                    mapSheetView = true
+                } label: {
+                    Image(systemName: "map")
+                        .foregroundColor(.black)
                 }
             }
         }

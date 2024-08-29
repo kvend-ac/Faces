@@ -15,6 +15,7 @@ struct AddFaceView: View {
     @State var name: String
     @State var description: String
     var onSave: (Face) -> Void
+    let locationFetcher = LocationFetcher()
     
     init(face: Face, onSave: @escaping (Face) -> Void) {
         self.face = face
@@ -39,19 +40,22 @@ struct AddFaceView: View {
 //                            RoundedRectangle(cornerRadius: 5)
 //                                .stroke(.separator.opacity(0.5))
 //                        ) //запасной вариант, менее красивый
-                        
-    
-                        
-    
                 }
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 5)
                 Spacer()
             }
             .ignoresSafeArea()
+            .onAppear {
+                locationFetcher.start()
+            }
             .toolbar {
                 Button {
                     var newFace = face
+                    if let location = locationFetcher.lastKnownLocation {
+                        newFace.longtitude = location.longitude
+                        newFace.latitude = location.latitude
+                    }
                     newFace.name = name
                     newFace.description = description
                     onSave(newFace)

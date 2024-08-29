@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import MapKit
 
 struct Face: Codable, Equatable, Identifiable, Comparable, Hashable {
     
@@ -15,6 +16,16 @@ struct Face: Codable, Equatable, Identifiable, Comparable, Hashable {
     var photoData: Data?
     var name: String
     var description: String
+    
+    var latitude: Double?
+    var longtitude: Double?
+    
+    var coordinate: CLLocationCoordinate2D? {
+        guard let latitude else { return nil }
+        guard let longtitude else { return nil }
+        
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longtitude)
+    }
     
     var photo: Image {
         
@@ -29,7 +40,7 @@ struct Face: Codable, Equatable, Identifiable, Comparable, Hashable {
     }
     
     #if DEBUG
-    static let example = Face(id: UUID(), name: "Alice", description: "Person from a book")
+    static let example = Face(id: UUID(), name: "Alice", description: "Person from a book", latitude: 51, longtitude: 9)
     #endif
     
     static func ==(lhs: Face, rhs: Face) -> Bool {
