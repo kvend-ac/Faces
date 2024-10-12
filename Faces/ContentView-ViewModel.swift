@@ -21,6 +21,15 @@ extension ContentView {
         var selectedEditFace: Face?
         var selectedViewFace: Face?
         
+        var searchText = ""
+        var filteredFaces: [Face] {
+            if searchText.isEmpty {
+                faces
+            } else {
+                faces.filter { $0.name.localizedStandardContains(searchText) || $0.description.localizedStandardContains(searchText) }
+            }
+        }
+        
         let savePath = URL.documentsDirectory.appending(path: "SavedFaces")
         
         init() {

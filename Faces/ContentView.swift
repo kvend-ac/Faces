@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             Form {
-                List(viewModel.faces.sorted()) { face in
+                List(viewModel.filteredFaces.sorted()) { face in
                     NavigationLink {
                         FaceView(face: face)
                     } label: {
@@ -57,6 +57,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .searchable(text: $viewModel.searchText)
             .sheet(item: $viewModel.selectedAddFace) { face in
                 AddFaceView(face: face) { newFace in
                     viewModel.addFace(at: newFace)
