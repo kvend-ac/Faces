@@ -20,7 +20,6 @@ extension ContentView {
         var selectedAddFace: Face?
         var selectedEditFace: Face?
         var selectedViewFace: Face?
-        var showingAlertInfo = false
         
         let savePath = URL.documentsDirectory.appending(path: "SavedFaces")
         
@@ -57,9 +56,7 @@ extension ContentView {
         }
         
         func delete(face: Face) {
-            guard let selectedEditFace else { return }
-            
-            if let index = faces.firstIndex(of: selectedEditFace) {
+            if let index = faces.firstIndex(of: face) {
                 faces.remove(at: index)
             }
             save()
