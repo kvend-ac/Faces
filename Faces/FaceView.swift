@@ -29,8 +29,6 @@ struct FaceView: View {
                 Spacer()
             }
             .padding(.top, -10)
-                
-                
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
@@ -47,16 +45,18 @@ struct FaceView: View {
                             .bold()
                         Text("Назад")
                     }
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    //вьюшка мапы
-                    mapSheetView = true
-                } label: {
-                    Image(systemName: "map")
-                        .foregroundColor(.black)
+                if face.coordinate != nil {
+                    Button {
+                        //вьюшка мапы
+                        mapSheetView = true
+                    } label: {
+                        Image(systemName: "map")
+                            .foregroundColor(.primary)
+                    }
                 }
             }
         }

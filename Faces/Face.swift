@@ -11,7 +11,6 @@ import MapKit
 
 struct Face: Codable, Equatable, Identifiable, Comparable, Hashable {
     
-    
     var id: UUID
     var photoData: Data?
     var name: String
@@ -42,11 +41,11 @@ struct Face: Codable, Equatable, Identifiable, Comparable, Hashable {
     #if DEBUG
     static let example = Face(id: UUID(), name: "Alice", description: "Person from a book", latitude: 51, longtitude: 9)
     #endif
-    
+    //Этот метод определяет по какому свойству будут проверяться на равенство два экземпляра структуры
     static func ==(lhs: Face, rhs: Face) -> Bool {
         lhs.id == rhs.id
     }
-    
+    //Этот метод позволяет использовать сортировку по умолчанию, например как faces.sorted()
     static func < (lhs: Face, rhs: Face) -> Bool {
         lhs.name < rhs.name
     }

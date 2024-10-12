@@ -16,14 +16,16 @@ struct EditFaceView: View {
     @State var name: String
     @State var description: String
     var onSave: (Face) -> Void
+    var onDelete: (Face) -> Void
     
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedImage: Image?
     @State private var selectedImageData: Data?
     
-    init(face: Face, onSave: @escaping (Face) -> Void) {
+    init(face: Face, onSave: @escaping (Face) -> Void, onDelete: @escaping (Face) -> Void) {
         self.face = face
         self.onSave = onSave
+        self.onDelete = onDelete
         
         _name = State(initialValue: face.name)
         _description = State(initialValue: face.description)
@@ -58,11 +60,7 @@ struct EditFaceView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        var newFace = face
-                        newFace.id = UUID()
-                        newFace.name = "DELETE"
-                        newFace.description = ""
-                        onSave(newFace)
+                        onDelete(face)
                         dismiss()
                     } label: {
                         Image(systemName: "trash")
@@ -110,5 +108,5 @@ struct EditFaceView: View {
 }
 
 #Preview {
-    EditFaceView(face: .example) { _ in }
+    EditFaceView(face: .example) { _ in } onDelete: { _ in }
 }

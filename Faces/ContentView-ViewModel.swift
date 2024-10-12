@@ -40,7 +40,7 @@ extension ContentView {
                 print("Unable to save data.")
             }
         }
-        //заготовка
+
         func addFace(at face: Face) {
             faces.append(face)
             save()

@@ -5,9 +5,8 @@
 //  Created by Сергей Прасолов on 29.08.2024.
 //
 
-import Foundation
-
 import CoreLocation
+import Foundation
 
 class LocationFetcher: NSObject, CLLocationManagerDelegate {
     let manager = CLLocationManager()

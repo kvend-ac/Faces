@@ -34,12 +34,6 @@ struct AddFaceView: View {
                 VStack {
                     TextField("Имя", text: $name, axis: .vertical)
                     TextField("Дополнительная информация", text: $description, axis: .vertical)
-//                    TextEditor(text: $description)
-//                        .clipShape(.rect(cornerRadius: 5))
-//                        .overlay(
-//                            RoundedRectangle(cornerRadius: 5)
-//                                .stroke(.separator.opacity(0.5))
-//                        ) //запасной вариант, менее красивый
                 }
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 5)

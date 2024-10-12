@@ -11,7 +11,6 @@ import PhotosUI
 struct ContentView: View {
     
     @State private var viewModel = ViewModel()
-    @State private var showingSheet = false
     
     var body: some View {
         NavigationStack {
@@ -46,6 +45,16 @@ struct ContentView: View {
                             viewModel.delete(face: face)
                         }
                     }
+                    .swipeActions {
+                        Button("Delete", systemImage: "trash", role: .destructive) {
+                            viewModel.delete(face: face)
+                        }
+                    }
+                    .swipeActions(edge: .leading) {
+                        Button("Edit", systemImage: "square.and.pencil") {
+                            viewModel.selectedEditFace = face
+                        }
+                    }
                 }
                 .sheet(item: $viewModel.selectedAddFace) { face in
                     AddFaceView(face: face) { newFace in
@@ -54,16 +63,14 @@ struct ContentView: View {
                 }
                 .sheet(item: $viewModel.selectedEditFace) { face in
                     EditFaceView(face: face) { editedFace in
-                        if editedFace.name == "DELETE" {
-                            viewModel.delete(face: editedFace)
-                        } else {
-                            viewModel.update(face: editedFace)
-                        }
+                        viewModel.update(face: editedFace)
+                    } onDelete: { deletingFace in
+                        viewModel.delete(face: deletingFace)
                     }
                 }
-                .onChange(of: viewModel.selectedItem) {
-                    viewModel.loadImage()
-                }
+            }
+            .onChange(of: viewModel.selectedItem) {
+                viewModel.loadImage()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -71,13 +78,12 @@ struct ContentView: View {
                         Image(systemName: "plus.app")
                             .resizable()
                             .font(.title2)
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                     }
                 }
             }
             .navigationTitle("Faces")
         }
-        .preferredColorScheme(.light)
     }
     
 
