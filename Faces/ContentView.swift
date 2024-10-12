@@ -56,17 +56,17 @@ struct ContentView: View {
                         }
                     }
                 }
-                .sheet(item: $viewModel.selectedAddFace) { face in
-                    AddFaceView(face: face) { newFace in
-                        viewModel.addFace(at: newFace)
-                    }
+            }
+            .sheet(item: $viewModel.selectedAddFace) { face in
+                AddFaceView(face: face) { newFace in
+                    viewModel.addFace(at: newFace)
                 }
-                .sheet(item: $viewModel.selectedEditFace) { face in
-                    EditFaceView(face: face) { editedFace in
-                        viewModel.update(face: editedFace)
-                    } onDelete: { deletingFace in
-                        viewModel.delete(face: deletingFace)
-                    }
+            }
+            .sheet(item: $viewModel.selectedEditFace) { face in
+                EditFaceView(face: face) { editedFace in
+                    viewModel.update(face: editedFace)
+                } onDelete: { deletingFace in
+                    viewModel.delete(face: deletingFace)
                 }
             }
             .onChange(of: viewModel.selectedItem) {
