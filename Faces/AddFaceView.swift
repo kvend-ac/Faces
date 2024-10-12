@@ -32,8 +32,8 @@ struct AddFaceView: View {
                     .resizable()
                     .scaledToFit()
                 VStack {
-                    TextField("Имя", text: $name, axis: .vertical)
-                    TextField("Дополнительная информация", text: $description, axis: .vertical)
+                    TextField("Name", text: $name, axis: .vertical)
+                    TextField("Description", text: $description, axis: .vertical)
                 }
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 5)
@@ -55,7 +55,7 @@ struct AddFaceView: View {
                     onSave(newFace)
                     dismiss()
                 } label: {
-                    Text("Сохранить")
+                    Text("Add")
                         .padding(10)
                         .foregroundColor(.secondary)
                         .background(.thinMaterial)

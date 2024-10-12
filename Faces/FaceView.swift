@@ -43,7 +43,7 @@ struct FaceView: View {
                     HStack {
                         Image(systemName: "chevron.backward")
                             .bold()
-                        Text("Назад")
+                        Text("Back")
                     }
                     .foregroundColor(.primary)
                 }
@@ -51,7 +51,7 @@ struct FaceView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 if face.coordinate != nil {
                     Button {
-                        //вьюшка мапы
+                        //MapView
                         mapSheetView = true
                     } label: {
                         Image(systemName: "map")

@@ -46,8 +46,8 @@ struct EditFaceView: View {
                     }
                 }
                 VStack {
-                    TextField("Имя", text: $name, axis: .horizontal)
-                    TextField("Дополнительная информация", text: $description, axis: .horizontal)
+                    TextField("Name", text: $name, axis: .horizontal)
+                    TextField("Description", text: $description, axis: .horizontal)
                 }
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 5)
@@ -82,7 +82,7 @@ struct EditFaceView: View {
                         onSave(newFace)
                         dismiss()
                     } label: {
-                        Text("Сохранить")
+                        Text("Save")
                             .padding(10)
                             .foregroundColor(.secondary)
                             .background(.thinMaterial)
