@@ -36,7 +36,7 @@ struct MapView: View {
                             .frame(width: 44, height: 44)
                             .clipShape(.circle)
                             .padding(3)
-                            .background(.black)
+                            .background(.primary)
                             .clipShape(.circle)
                     }
                 }

@@ -14,9 +14,10 @@ extension EditFaceView {
     @Observable
     class ViewModel {
         
-        private var face: Face
+        var face: Face
         private var onSave: (Face) -> Void
         private var onDelete: (Face) -> Void
+        var mapSheetEditView = false
         
         var name: String
         var description: String
@@ -46,6 +47,13 @@ extension EditFaceView {
         
         func delete() {
             onDelete(face)
+        }
+        
+        func updateCoordinate(newCoordinate: CLLocationCoordinate2D?) {
+            if let newCoordinate {
+                face.latitude = newCoordinate.latitude
+                face.longtitude = newCoordinate.longitude
+            }
         }
         
         func loadNewPhoto() {

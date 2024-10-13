@@ -43,7 +43,7 @@ struct AddFaceView: View {
                 } label: {
                     Text("Add")
                         .padding(10)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.primary)
                         .background(.thinMaterial)
                         .clipShape(.capsule)
                 }

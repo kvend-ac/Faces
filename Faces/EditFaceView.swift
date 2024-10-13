@@ -36,6 +36,20 @@ struct EditFaceView: View {
                 VStack {
                     TextField("Name", text: $viewModel.name, axis: .horizontal)
                     TextField("Description", text: $viewModel.description, axis: .horizontal)
+                    Button {
+                        viewModel.mapSheetEditView = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "map")
+                            Text("Edit map location")
+                        }
+                        .padding(10)
+                        .foregroundColor(.primary)
+                        .background(.thinMaterial)
+                        .clipShape(.capsule)
+                    }
+                    .padding(.horizontal, 5)
+                    
                 }
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 5)
@@ -45,6 +59,12 @@ struct EditFaceView: View {
             .onChange(of: viewModel.selectedItem) {
                 viewModel.loadNewPhoto()
             }
+            .sheet(isPresented: $viewModel.mapSheetEditView) {
+                EditMapView(face: viewModel.face) { newCoordinate in
+                    viewModel.updateCoordinate(newCoordinate: newCoordinate)
+                }
+                .presentationDetents([.medium, .large])
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
@@ -53,7 +73,7 @@ struct EditFaceView: View {
                     } label: {
                         Image(systemName: "trash")
                             .padding(7)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.primary)
                             .background(.thinMaterial)
                             .clipShape(.capsule)
                     }
@@ -65,7 +85,7 @@ struct EditFaceView: View {
                     } label: {
                         Text("Save")
                             .padding(10)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.primary)
                             .background(.thinMaterial)
                             .clipShape(.capsule)
                     }

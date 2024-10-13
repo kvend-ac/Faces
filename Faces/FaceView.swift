@@ -28,12 +28,27 @@ struct FaceView: View {
                     Text(viewModel.face.name)
                         .font(.title)
                     Text(viewModel.face.description)
+                    
                 }
                 .padding(5)
                 .multilineTextAlignment(.leading)
                 Spacer()
             }
             .padding(.top, -10)
+            if viewModel.face.coordinate != nil {
+                Button {
+                    viewModel.mapSheetView = true
+                } label: {
+                    HStack {
+                        Image(systemName: "map")
+                        Text("Map location")
+                    }
+                    .padding(10)
+                    .foregroundColor(.primary)
+                    .background(.thinMaterial)
+                    .clipShape(.capsule)
+                }
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
@@ -47,6 +62,7 @@ struct FaceView: View {
         }
         .sheet(isPresented: $viewModel.mapSheetView) {
             MapView(face: viewModel.face)
+                .presentationDetents([.medium, .large])
         }
         .toolbar {
             ToolbarItem(placement: .navigation) {
@@ -62,18 +78,8 @@ struct FaceView: View {
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                if face.coordinate != nil {
-                    Button {
-                        //MapView
-                        viewModel.mapSheetView = true
-                    } label: {
-                        Image(systemName: "map")
-                    }
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
                 Button("Edit") {
-                    viewModel.selectedEditFace = face
+                    viewModel.selectedEditFace = viewModel.face
                 }
             }
         }
@@ -82,5 +88,5 @@ struct FaceView: View {
 }
 
 #Preview {
-    FaceView(face: .example) {_ in} onDelete: {_ in}
+    FaceView(face: .example) { _ in } onDelete: { _ in }
 }
