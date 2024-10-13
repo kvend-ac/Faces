@@ -9,20 +9,13 @@ import SwiftUI
 
 struct AddFaceView: View {
     
-    @Environment(\.dismiss) var dismiss
     var face: Face
-    
-    @State var name: String
-    @State var description: String
-    var onSave: (Face) -> Void
-    let locationFetcher = LocationFetcher()
+    @State private var viewModel: ViewModel
+    @Environment(\.dismiss) var dismiss
     
     init(face: Face, onSave: @escaping (Face) -> Void) {
         self.face = face
-        self.onSave = onSave
-        
-        _name = State(initialValue: face.name)
-        _description = State(initialValue: face.description)
+        self.viewModel = ViewModel(face: face, onSave: onSave)
     }
     
     var body: some View {
@@ -32,8 +25,8 @@ struct AddFaceView: View {
                     .resizable()
                     .scaledToFit()
                 VStack {
-                    TextField("Name", text: $name, axis: .vertical)
-                    TextField("Description", text: $description, axis: .vertical)
+                    TextField("Name", text: $viewModel.name, axis: .vertical)
+                    TextField("Description", text: $viewModel.description, axis: .vertical)
                 }
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 5)
@@ -41,18 +34,11 @@ struct AddFaceView: View {
             }
             .ignoresSafeArea()
             .onAppear {
-                locationFetcher.start()
+                viewModel.locationFetcher.start()
             }
             .toolbar {
                 Button {
-                    var newFace = face
-                    if let location = locationFetcher.lastKnownLocation {
-                        newFace.longtitude = location.longitude
-                        newFace.latitude = location.latitude
-                    }
-                    newFace.name = name
-                    newFace.description = description
-                    onSave(newFace)
+                    viewModel.save()
                     dismiss()
                 } label: {
                     Text("Add")

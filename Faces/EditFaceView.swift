@@ -14,14 +14,9 @@ struct EditFaceView: View {
     @State private var viewModel: ViewModel
     @Environment(\.dismiss) var dismiss
     
-    var onSave: (Face) -> Void
-    var onDelete: (Face) -> Void
-    
     init(face: Face, onSave: @escaping (Face) -> Void, onDelete: @escaping (Face) -> Void) {
         self.face = face
-        self.onSave = onSave
-        self.onDelete = onDelete
-        self.viewModel = ViewModel(face: face)
+        self.viewModel = ViewModel(face: face, onSave: onSave, onDelete: onDelete)
     }
     
     var body: some View {
@@ -53,7 +48,7 @@ struct EditFaceView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
-                        onDelete(face)
+                        viewModel.delete()
                         dismiss()
                     } label: {
                         Image(systemName: "trash")
@@ -65,14 +60,7 @@ struct EditFaceView: View {
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        var newFace = face
-                        newFace.id = UUID()
-                        newFace.name = viewModel.name
-                        newFace.description = viewModel.description
-                        if let selectedImageData = viewModel.selectedImageData {
-                            newFace.photoData = selectedImageData
-                        }
-                        onSave(newFace)
+                        viewModel.save()
                         dismiss()
                     } label: {
                         Text("Save")
