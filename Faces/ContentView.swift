@@ -17,7 +17,12 @@ struct ContentView: View {
             Form {
                 List(viewModel.filteredFaces.sorted()) { face in
                     NavigationLink {
-                        FaceView(face: face)
+                        FaceView(face: face) { editedFace in
+                            viewModel.selectedEditFace = face
+                            viewModel.update(face: editedFace)
+                        } onDelete: { deletingFace in
+                            viewModel.delete(face: deletingFace)
+                        }
                     } label: {
                         HStack {
                             face.photo

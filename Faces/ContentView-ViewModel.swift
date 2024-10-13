@@ -48,6 +48,7 @@ extension ContentView {
             } catch {
                 print("Unable to save data.")
             }
+            selectedEditFace = nil
         }
 
         func addFace(at face: Face) {

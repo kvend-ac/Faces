@@ -8,21 +8,26 @@
 import SwiftUI
 
 struct FaceView: View {
+    
     @State var face: Face
+    @State private var viewModel: ViewModel
     @Environment(\.dismiss) var dismiss
     
-    @State private var mapSheetView = false
+    init(face: Face, onSave: @escaping (Face) -> Void, onDelete: @escaping (Face) -> Void) {
+        self.face = face
+        self.viewModel = ViewModel(face: face, onSave: onSave, onDelete: onDelete)
+    }
     
     var body: some View {
         ScrollView {
-            face.photo
+            viewModel.face.photo
                 .resizable()
                 .scaledToFit()
             HStack {
                 VStack(alignment: .leading) {
-                    Text(face.name)
+                    Text(viewModel.face.name)
                         .font(.title)
-                    Text(face.description)
+                    Text(viewModel.face.description)
                 }
                 .padding(5)
                 .multilineTextAlignment(.leading)
@@ -32,11 +37,20 @@ struct FaceView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden()
-        .sheet(isPresented: $mapSheetView) {
-            MapView(face: face)
+        .sheet(item: $viewModel.selectedEditFace) { face in
+            EditFaceView(face: face) { editedFace in
+                viewModel.save(editedFace: editedFace)
+            } onDelete: { deletingFace in
+                viewModel.delete(deletingFace: deletingFace)
+                dismiss()
+            }
+        }
+        .sheet(isPresented: $viewModel.mapSheetView) {
+            MapView(face: viewModel.face)
         }
         .toolbar {
             ToolbarItem(placement: .navigation) {
+                //Back Button
                 Button {
                     dismiss()
                 } label: {
@@ -45,29 +59,28 @@ struct FaceView: View {
                             .bold()
                         Text("Back")
                     }
-                    .foregroundColor(.primary)
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
                 if face.coordinate != nil {
                     Button {
                         //MapView
-                        mapSheetView = true
+                        viewModel.mapSheetView = true
                     } label: {
                         Image(systemName: "map")
-                            .foregroundColor(.primary)
                     }
                 }
-                
+            }
+            ToolbarItem(placement: .topBarTrailing) {
                 Button("Edit") {
-                
+                    viewModel.selectedEditFace = face
                 }
-                .foregroundColor(.primary)
             }
         }
+        .foregroundColor(.primary)
     }
 }
 
 #Preview {
-    FaceView(face: .example)
+    FaceView(face: .example) {_ in} onDelete: {_ in}
 }
