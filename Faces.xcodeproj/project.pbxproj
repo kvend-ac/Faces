@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F9175DC82CBBECEB0001B5AA /* EditFaceView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9175DC72CBBECEB0001B5AA /* EditFaceView-ViewModel.swift */; };
 		F94FA8602C80DA110064B3E8 /* LocationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94FA85F2C80DA100064B3E8 /* LocationFetcher.swift */; };
 		F94FA8622C80DE900064B3E8 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94FA8612C80DE900064B3E8 /* MapView.swift */; };
 		F9863CEE2C773EAF008C7842 /* FacesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9863CED2C773EAF008C7842 /* FacesApp.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F9175DC72CBBECEB0001B5AA /* EditFaceView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditFaceView-ViewModel.swift"; sourceTree = "<group>"; };
 		F94FA85F2C80DA100064B3E8 /* LocationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFetcher.swift; sourceTree = "<group>"; };
 		F94FA8612C80DE900064B3E8 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		F9863CEA2C773EAF008C7842 /* Faces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Faces.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +71,7 @@
 				F9863CEF2C773EAF008C7842 /* ContentView.swift */,
 				F98FAFEF2C7E150500D8C291 /* ContentView-ViewModel.swift */,
 				F98FAFF12C7E24DA00D8C291 /* EditFaceView.swift */,
+				F9175DC72CBBECEB0001B5AA /* EditFaceView-ViewModel.swift */,
 				F9863CFD2C7774B2008C7842 /* AddFaceView.swift */,
 				F98FAFF32C7F549E00D8C291 /* FaceView.swift */,
 				F94FA8612C80DE900064B3E8 /* MapView.swift */,
@@ -160,6 +163,7 @@
 			files = (
 				F9863CF02C773EAF008C7842 /* ContentView.swift in Sources */,
 				F9863CFC2C774C90008C7842 /* Face.swift in Sources */,
+				F9175DC82CBBECEB0001B5AA /* EditFaceView-ViewModel.swift in Sources */,
 				F94FA8602C80DA110064B3E8 /* LocationFetcher.swift in Sources */,
 				F98FAFF42C7F549E00D8C291 /* FaceView.swift in Sources */,
 				F98FAFF02C7E150500D8C291 /* ContentView-ViewModel.swift in Sources */,

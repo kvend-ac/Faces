@@ -58,6 +58,11 @@ struct FaceView: View {
                             .foregroundColor(.primary)
                     }
                 }
+                
+                Button("Edit") {
+                
+                }
+                .foregroundColor(.primary)
             }
         }
     }

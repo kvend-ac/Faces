@@ -10,32 +10,25 @@ import PhotosUI
 
 struct EditFaceView: View {
     
-    @Environment(\.dismiss) var dismiss
     var face: Face
+    @State private var viewModel: ViewModel
+    @Environment(\.dismiss) var dismiss
     
-    @State var name: String
-    @State var description: String
     var onSave: (Face) -> Void
     var onDelete: (Face) -> Void
-    
-    @State private var selectedItem: PhotosPickerItem?
-    @State private var selectedImage: Image?
-    @State private var selectedImageData: Data?
     
     init(face: Face, onSave: @escaping (Face) -> Void, onDelete: @escaping (Face) -> Void) {
         self.face = face
         self.onSave = onSave
         self.onDelete = onDelete
-        
-        _name = State(initialValue: face.name)
-        _description = State(initialValue: face.description)
+        self.viewModel = ViewModel(face: face)
     }
     
     var body: some View {
         NavigationStack {
             VStack {
-                PhotosPicker(selection: $selectedItem, matching: .images) {
-                    if let selectedImage {
+                PhotosPicker(selection: $viewModel.selectedItem, matching: .images) {
+                    if let selectedImage = viewModel.selectedImage {
                         selectedImage
                             .resizable()
                             .scaledToFit()
@@ -46,16 +39,16 @@ struct EditFaceView: View {
                     }
                 }
                 VStack {
-                    TextField("Name", text: $name, axis: .horizontal)
-                    TextField("Description", text: $description, axis: .horizontal)
+                    TextField("Name", text: $viewModel.name, axis: .horizontal)
+                    TextField("Description", text: $viewModel.description, axis: .horizontal)
                 }
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 5)
                 Spacer()
             }
             .ignoresSafeArea()
-            .onChange(of: selectedItem) {
-                loadNewPhoto()
+            .onChange(of: viewModel.selectedItem) {
+                viewModel.loadNewPhoto()
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -74,9 +67,9 @@ struct EditFaceView: View {
                     Button {
                         var newFace = face
                         newFace.id = UUID()
-                        newFace.name = name
-                        newFace.description = description
-                        if let selectedImageData {
+                        newFace.name = viewModel.name
+                        newFace.description = viewModel.description
+                        if let selectedImageData = viewModel.selectedImageData {
                             newFace.photoData = selectedImageData
                         }
                         onSave(newFace)
@@ -91,17 +84,6 @@ struct EditFaceView: View {
                 }
             }
             Spacer()
-        }
-    }
-    
-    func loadNewPhoto() {
-        Task {
-            guard let imageData = try await selectedItem?.loadTransferable(type: Data.self) else { return }
-            selectedImageData = imageData
-            if let inputImage = UIImage(data: imageData) {
-                selectedImage = Image(uiImage: inputImage)
-            }
-            
         }
     }
     
