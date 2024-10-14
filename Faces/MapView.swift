@@ -10,27 +10,22 @@ import SwiftUI
 
 struct MapView: View {
     
-    var startPosition: MapCameraPosition {
-        guard let latitude = face.latitude else { return MapCameraPosition.automatic }
-        guard let longtitude = face.longtitude else { return MapCameraPosition.automatic }
-        return MapCameraPosition.region(
-            MKCoordinateRegion(
-                center: CLLocationCoordinate2D(latitude: latitude, longitude: longtitude),
-                span: MKCoordinateSpan(latitudeDelta: 0.200, longitudeDelta: 0.200)
-            )
-        )
-    }
-    
     @State var face: Face
+    @State private var viewModel: ViewModel
     @Environment(\.dismiss) var dismiss
+    
+    init(face: Face) {
+        self.face = face
+        self.viewModel = ViewModel(face: face)
+    }
     
     var body: some View {
         ZStack {
-            Map(initialPosition: startPosition) {
+            Map(initialPosition: viewModel.startPosition) {
                 
-                if let coordinate = face.coordinate {
-                    Annotation(face.name, coordinate: coordinate) {
-                        face.photo
+                if let coordinate = viewModel.face.coordinate {
+                    Annotation(viewModel.face.name, coordinate: coordinate) {
+                        viewModel.face.photo
                             .resizable()
                             .scaledToFill()
                             .frame(width: 44, height: 44)
@@ -47,7 +42,6 @@ struct MapView: View {
                     Button {
                         dismiss()
                     } label: {
-                        
                         Image(systemName: "xmark")
                             .padding(10)
                             .font(.title2.bold())

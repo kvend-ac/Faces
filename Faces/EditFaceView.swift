@@ -34,8 +34,11 @@ struct EditFaceView: View {
                     }
                 }
                 VStack {
-                    TextField("Name", text: $viewModel.name, axis: .horizontal)
-                    TextField("Description", text: $viewModel.description, axis: .horizontal)
+                    VStack {
+                        TextField("Name", text: $viewModel.name, axis: .vertical)
+                        TextField("Description", text: $viewModel.description, axis: .vertical)
+                    }
+                    .textFieldStyle(.roundedBorder)
                     Button {
                         viewModel.mapSheetEditView = true
                     } label: {
