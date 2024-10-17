@@ -9,7 +9,7 @@ This milestone project is in 2 parts:
 #### Note
 
 I also added a search bar for names and descriptions, as well as the ability to fully edit an existing record, including both replacing the photo and changing the location. 
-To save the data, I used a simple JSON file written out to the documents directory.
+To save the data, I used a simple JSON file written out to the documents directory. The app was written using the MVVM architecture.
 
 #### Credits
 
